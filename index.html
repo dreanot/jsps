@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Manager</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+      overflow-y: auto;
+      max-height: 95vh;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #999;
+      font-size: 14px;
+    }
+
+    .form-section {
+      background: #f9f9f9;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border: 1px solid #eee;
+    }
+
+    .form-section h2 {
+      color: #667eea;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    #contactForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    .edit-btn {
+      background: #4CAF50;
+      color: white;
+      padding: 8px 12px;
+      font-size: 12px;
+      flex: 1;
+      min-width: 70px;
+    }
+
+    .edit-btn:hover {
+      background: #45a049;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+
+    .delete-btn {
+      background: #f44336;
+      color: white;
+      padding: 8px 12px;
+      font-size: 12px;
+      flex: 1;
+      min-width: 70px;
+    }
+
+    .delete-btn:hover {
+      background: #da190b;
+      box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+
+    .search-section {
+      margin-bottom: 25px;
+    }
+
+    #search {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M19 19L14.65 14.65' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 40px;
+    }
+
+    #search:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .list-section h2 {
+      color: #333;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #667eea;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: white;
+      margin: 12px 0;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: grab;
+    }
+
+    li:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+
+    li.dragging {
+      opacity: 0.5;
+      background: #f0f0f0;
+      cursor: grabbing;
+    }
+
+    li span {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 10px;
+      word-break: break-all;
+    }
+
+    li span strong {
+      color: #2245e2;
+      font-weight: 600;
+    }
+
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .contact-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .empty-state svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 16px;
+      color: #999;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      li span {
+        font-size: 13px;
+      }
+
+      .contact-actions {
+        flex-direction: column;
+      }
+
+      .edit-btn,
+      .delete-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📇 Contact Manager</h1>
+      <p>Organize and manage your contacts efficiently</p>
+    </div>
+
+    <div class="form-section">
+      <h2>Add New Contact</h2>
+      <form id="contactForm">
+        <div class="form-group">
+          <input id="name" type="text" placeholder="Enter name" required><br>
+        </div>
+        <div class="form-group">
+          <input id="email" type="email" placeholder="Enter email" required><br>
+        </div>
+        <div class="form-group">
+          <input id="phone" type="tel" placeholder="Enter phone number" required><br>
+        </div>
+        <button type="submit">➕ Add Contact</button>
+      </form>
+    </div>
+
+    <div class="search-section">
+      <input id="search" type="text" placeholder="🔍 Search by name or email">
+    </div>
+
+    <div class="list-section">
+      <h2>Your Contacts</h2>
+      <ul id="contactList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    const form = document.getElementById("contactForm");
+    const list = document.getElementById("contactList");
+    const search = document.getElementById("search");
+
+    function save() {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
+
+    function render(filter = "") {
+      list.innerHTML = "";
+
+      const filtered = contacts.filter(c =>
+        c.name.toLowerCase().includes(filter) ||
+        c.email.toLowerCase().includes(filter)
+      );
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty-state"><p>No contacts found. Start by adding a new contact!</p></div>';
+        return;
+      }
+
+      filtered.forEach((c, index) => {
+        const actualIndex = contacts.indexOf(c);
+        const li = document.createElement("li");
+        li.draggable = true;
+        li.dataset.index = actualIndex;
+
+        const contactInfo = document.createElement("div");
+        contactInfo.className = "contact-item";
+
+        const info = document.createElement("div");
+        info.className = "contact-info";
+
+        const nameSpan = document.createElement("div");
+        nameSpan.innerHTML = `<strong>${escapeHtml(c.name)}</strong>`;
+        
+        const emailSpan = document.createElement("div");
+        emailSpan.textContent = `📧 ${c.email}`;
+        emailSpan.style.fontSize = "13px";
+        emailSpan.style.color = "#666";
+        emailSpan.style.marginTop = "4px";
+        
+        const phoneSpan = document.createElement("div");
+        phoneSpan.textContent = `📱 ${c.phone}`;
+        phoneSpan.style.fontSize = "13px";
+        phoneSpan.style.color = "#666";
+        phoneSpan.style.marginTop = "4px";
+
+        info.append(nameSpan, emailSpan, phoneSpan);
+
+        const actions = document.createElement("div");
+        actions.className = "contact-actions";
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.textContent = "✏️ Edit";
+        editBtn.onclick = (e) => {
+          e.stopPropagation();
+          const n = prompt("Edit name:", c.name) || "";
+          if (!n.trim()) return;
+          
+          const e_val = prompt("Edit email:", c.email) || "";
+          if (!e_val.trim()) return;
+          
+          const p = prompt("Edit phone:", c.phone) || "";
+          if (!p.trim()) return;
+
+          contacts[actualIndex] = { 
+            name: n.trim(), 
+            email: e_val.trim(), 
+            phone: p.trim() 
+          };
+          save();
+          render(search.value.toLowerCase());
+        };
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "delete-btn";
+        delBtn.textContent = "🗑️ Delete";
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (confirm(`Delete contact "${c.name}"?`)) {
+            contacts.splice(actualIndex, 1);
+            save();
+            render(search.value.toLowerCase());
+          }
+        };
+
+        actions.append(editBtn, delBtn);
+        contactInfo.append(info, actions);
+        li.appendChild(contactInfo);
+
+        li.addEventListener("dragstart", () => li.classList.add("dragging"));
+        li.addEventListener("dragend", () => {
+          li.classList.remove("dragging");
+          updateOrder();
+        });
+
+        list.appendChild(li);
+      });
+    }
+
+    function updateOrder() {
+      const items = [...list.querySelectorAll("li[data-index]")];
+      const newArr = [];
+
+      items.forEach(li => {
+        const index = parseInt(li.dataset.index);
+        newArr.push(contacts[index]);
+      });
+
+      contacts.splice(0, contacts.length, ...newArr);
+      save();
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    list.addEventListener("dragover", e => {
+      e.preventDefault();
+      const dragging = document.querySelector("li.dragging");
+      if (!dragging) return;
+      
+      const after = [...list.querySelectorAll("li:not(.dragging)")].find(li => {
+        const box = li.getBoundingClientRect();
+        return e.clientY < box.top + box.height / 2;
+      });
+      after ? list.insertBefore(dragging, after) : list.appendChild(dragging);
+    });
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!name || !email || !phone) {
+        alert("Please fill in all fields");
+        return;
+      }
+
+      if (!email.includes("@")) {
+        alert("Please enter a valid email address");
+        return;
+      }
+
+      contacts.push({ name, email, phone });
+      save();
+      render(search.value.toLowerCase());
+      form.reset();
+      document.getElementById("name").focus();
+    });
+
+    search.addEventListener("input", () => {
+      render(search.value.toLowerCase());
+    });
+
+    render();
+  </script>
+</body>
+</html>
